@@ -125,7 +125,7 @@ public class Autocomplete_opt_4 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String prefix;
         do {
-            System.out.print("Введите префикс для поиска (!quit для выхода): ");
+            System.out.print("Введите строку (!quit для выхода): ");
             prefix = br.readLine();
             if (!prefix.equals("") && !prefix.equals("!quit")) {
                 List<String> results = autocomplete.search(prefix);
