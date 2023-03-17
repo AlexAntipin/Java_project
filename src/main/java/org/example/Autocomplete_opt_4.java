@@ -1,14 +1,13 @@
 package org.example;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.InputStreamReader;
-import java.io.InputStream;
+
 
 public class Autocomplete_opt_4 {
 
@@ -29,7 +28,7 @@ public class Autocomplete_opt_4 {
             }
             node = node.get(c).children;
         }
-        node.put(null, new TrieNode()); // помечаем конец слова
+        node.put(null, new TrieNode());
     }
 
     public List<String> search(String prefix) {
@@ -69,13 +68,13 @@ public class Autocomplete_opt_4 {
             isWord = false;
         }
 
-        public boolean isWord() {
-            return isWord;
-        }
-
-        public void setWord(boolean isWord) {
-            this.isWord = isWord;
-        }
+//        public boolean isWord() {
+//            return isWord;
+//        }
+//
+//        public void setWord(boolean isWord) {
+//            this.isWord = isWord;
+//        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -92,28 +91,24 @@ public class Autocomplete_opt_4 {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 Autocomplete_opt_4.class.getClassLoader().getResourceAsStream("airports.csv")));
 
-        String line;
-        int count = 0;
+
+
         long startTime = System.currentTimeMillis();
-        char[] buffer = new char[8192]; // создаем буфер размером 8 кб
+        char[] buffer = new char[8192];
         int charsRead;
         StringBuilder sb = new StringBuilder();
-        while ((charsRead = reader.read(buffer)) != -1) { // читаем файл блоками
+        while ((charsRead = reader.read(buffer)) != -1) {
             sb.append(buffer, 0, charsRead);
-            String[] lines = sb.toString().split("\n"); // разделяем блоки на строки
+            String[] lines = sb.toString().split("\n");
             for (int i = 0; i < lines.length; i++) {
                 String[] fields = lines[i].split(",");
                 if (fields.length >= 2) {
                     String name = fields[1].replaceAll("\"", "");
                     autocomplete.insert(name);
                 }
-                count++;
-                if (count == 10000) {
-                    count = 0;
-                    autocomplete.root = new HashMap<>();
-                }
+
             }
-            sb.delete(0, sb.length()); // очищаем StringBuilder после обработки блока
+            sb.delete(0, sb.length());
         }
         reader.close();
 
